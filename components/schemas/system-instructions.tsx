@@ -1,50 +1,19 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { SystemInstructionsApi, Configuration } from "@/generated";
+import { useState } from "react";
+import { useSystemInstructions } from "@/hooks/use-system-instructions";
 import PromptDisplay from "@/components/display/prompt-display";
 import ActivateDeactivateButton from "@/components/display/activate-deactivate-button";
 
 export default function SystemInstructions() {
-    const [instructions, setInstructions] = useState<any[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+    const { instructions, isLoading, error, activateInstruction } = useSystemInstructions();
     const [expandedId, setExpandedId] = useState<string | null>(null);
-
-    useEffect(() => {
-        const loadInstructions = async () => {
-            try {
-                setIsLoading(true);
-                const config = new Configuration({
-                    basePath: process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080",
-                    accessToken: localStorage.getItem("access_token") || undefined,
-                });
-                const api = new SystemInstructionsApi(config);
-                const response = await api.systemInstructionsGet();
-                setInstructions(response || []);
-            } catch (err: any) {
-                setError(err.message || "Failed to load instructions");
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        loadInstructions();
-    }, []);
 
     const handleActivate = async (instructionId: string) => {
         try {
-            const config = new Configuration({
-                basePath: process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080",
-                accessToken: localStorage.getItem("access_token") || undefined,
-            });
-            const api = new SystemInstructionsApi(config);
-            await api.systemInstructionsIdActivatePost({ id: instructionId });
-            // Reload instructions after activation
-            const response = await api.systemInstructionsGet();
-            setInstructions(response || []);
+            await activateInstruction(instructionId);
         } catch (err: any) {
-            setError(err.message || "Failed to activate instruction");
+            console.error("Failed to activate instruction:", err);
         }
     };
 

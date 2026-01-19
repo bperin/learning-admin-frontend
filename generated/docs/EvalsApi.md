@@ -1,6 +1,6 @@
 # EvalsApi
 
-All URIs are relative to *http://localhost*
+All URIs are relative to *https://localhost:8080*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|

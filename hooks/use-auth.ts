@@ -24,11 +24,27 @@ export function useAuth() {
             console.log("[useAuth] login successful, tokens received");
 
             if (response.accessToken && response.refreshToken) {
-                TokenRepository.saveTokens({
+                await TokenRepository.saveTokens({
                     accessToken: response.accessToken,
                     refreshToken: response.refreshToken,
                 });
                 console.log("[useAuth] tokens saved to repository");
+
+                // Fetch user profile now that we have valid tokens
+                try {
+                    const apiClient = createApiClient();
+                    const userProfile = await apiClient.users.usersEmailEmailGet({
+                        email: email,
+                    });
+                    console.log("[useAuth] user profile fetched:", userProfile.email);
+
+                    setUser(userProfile);
+                    await TokenRepository.saveUser(userProfile);
+                    console.log("[useAuth] user profile saved");
+                } catch (userError) {
+                    console.error("[useAuth] failed to fetch user profile:", userError);
+                    // Continue with auth even if user fetch fails
+                }
 
                 setIsAuthenticated(true);
                 console.log("[useAuth] authentication state set to true");

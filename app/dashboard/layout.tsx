@@ -2,18 +2,12 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { BookOpen, Settings, LogOut, Menu, X } from "lucide-react";
+import { useAuthContext } from "@/providers/auth-provider";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
     const [sidebarOpen, setSidebarOpen] = useState(true);
-    const router = useRouter();
-
-    const handleLogout = () => {
-        localStorage.removeItem("access_token");
-        localStorage.removeItem("refresh_token");
-        router.push("/login");
-    };
+    const { logout } = useAuthContext();
 
     return (
         <div className="flex h-screen bg-gray-950 text-gray-50">
@@ -34,15 +28,15 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                         {sidebarOpen && <span>Subjects</span>}
                     </Link>
 
-                    <Link href="/dashboard/schemas" className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-800 transition-colors text-gray-300 hover:text-white">
+                    <Link href="/dashboard/prompt-schemas" className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-800 transition-colors text-gray-300 hover:text-white">
                         <Settings className="w-5 h-5" />
-                        {sidebarOpen && <span>Schemas</span>}
+                        {sidebarOpen && <span>Prompt & Schemas</span>}
                     </Link>
                 </nav>
 
                 {/* Logout */}
                 <div className="p-4 border-t border-gray-800">
-                    <button onClick={handleLogout} className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-red-900/20 transition-colors text-red-400 hover:text-red-300">
+                    <button onClick={logout} className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-red-900/20 transition-colors text-red-400 hover:text-red-300">
                         <LogOut className="w-5 h-5" />
                         {sidebarOpen && <span>Logout</span>}
                     </button>

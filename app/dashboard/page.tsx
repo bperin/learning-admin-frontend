@@ -1,28 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSubjects } from "@/hooks/use-subjects";
 
 export default function SubjectsPage() {
-    const [subjects, setSubjects] = useState<any[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-
-    useEffect(() => {
-        const loadSubjects = async () => {
-            try {
-                setIsLoading(true);
-                // TODO: Replace with actual API endpoint when subjects endpoint is available
-                // For now, showing empty state
-                setSubjects([]);
-            } catch (err: any) {
-                setError(err.message || "Failed to load subjects");
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        loadSubjects();
-    }, []);
+    const { subjects, isLoading, error } = useSubjects();
 
     if (isLoading) {
         return (

@@ -5,11 +5,13 @@ import ClassificationSchemas from "@/components/schemas/classification-schemas";
 import GenerationSchemas from "@/components/schemas/generation-schemas";
 import ChunkingConfig from "@/components/schemas/chunking-config";
 import SystemInstructions from "@/components/schemas/system-instructions";
+import { GenerationConfigDisplay } from "@/components/schemas/generation-config-display";
 
 export default function SchemasPage() {
-    const [activeTab, setActiveTab] = useState("classification");
+    const [activeTab, setActiveTab] = useState("config");
 
     const tabs = [
+        { id: "config", label: "Config Overview", component: GenerationConfigDisplay },
         { id: "classification", label: "Classification", component: ClassificationSchemas },
         { id: "generation", label: "Generation", component: GenerationSchemas },
         { id: "chunking", label: "Chunking Config", component: ChunkingConfig },

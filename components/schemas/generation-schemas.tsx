@@ -1,50 +1,19 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { SchemaTemplatesApi, Configuration } from "@/generated";
+import { useState } from "react";
+import { useSchemaTemplates } from "@/hooks/use-schema-templates";
 import SchemaDisplay from "@/components/display/schema-display";
 import ActivateDeactivateButton from "@/components/display/activate-deactivate-button";
 
 export default function GenerationSchemas() {
-    const [schemas, setSchemas] = useState<any[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+    const { schemas, isLoading, error, activateSchema } = useSchemaTemplates("QUESTIONS");
     const [expandedId, setExpandedId] = useState<string | null>(null);
-
-    useEffect(() => {
-        const loadSchemas = async () => {
-            try {
-                setIsLoading(true);
-                const config = new Configuration({
-                    basePath: process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080",
-                    accessToken: localStorage.getItem("access_token") || undefined,
-                });
-                const api = new SchemaTemplatesApi(config);
-                const response = await api.schemaTemplatesGet({ generationType: "QUESTIONS" });
-                setSchemas(response || []);
-            } catch (err: any) {
-                setError(err.message || "Failed to load schemas");
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        loadSchemas();
-    }, []);
 
     const handleActivate = async (schemaId: string) => {
         try {
-            const config = new Configuration({
-                basePath: process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080",
-                accessToken: localStorage.getItem("access_token") || undefined,
-            });
-            const api = new SchemaTemplatesApi(config);
-            await api.schemaTemplatesIdActivatePost({ id: schemaId });
-            // Reload schemas after activation
-            const response = await api.schemaTemplatesGet({ generationType: "QUESTIONS" });
-            setSchemas(response || []);
+            await activateSchema(schemaId);
         } catch (err: any) {
-            setError(err.message || "Failed to activate schema");
+            console.error("Failed to activate schema:", err);
         }
     };
 

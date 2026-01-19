@@ -1,50 +1,19 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { ChunkingConfigsApi, Configuration } from "@/generated";
+import { useState } from "react";
+import { useChunkingConfigs } from "@/hooks/use-chunking-configs";
 import SchemaDisplay from "@/components/display/schema-display";
 import ActivateDeactivateButton from "@/components/display/activate-deactivate-button";
 
 export default function ChunkingConfig() {
-    const [configs, setConfigs] = useState<any[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+    const { configs, isLoading, error, activateConfig } = useChunkingConfigs();
     const [expandedId, setExpandedId] = useState<string | null>(null);
-
-    useEffect(() => {
-        const loadConfigs = async () => {
-            try {
-                setIsLoading(true);
-                const config = new Configuration({
-                    basePath: process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080",
-                    accessToken: localStorage.getItem("access_token") || undefined,
-                });
-                const api = new ChunkingConfigsApi(config);
-                const response = await api.chunkingConfigsGet();
-                setConfigs(response || []);
-            } catch (err: any) {
-                setError(err.message || "Failed to load configs");
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        loadConfigs();
-    }, []);
 
     const handleActivate = async (configId: string) => {
         try {
-            const config = new Configuration({
-                basePath: process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080",
-                accessToken: localStorage.getItem("access_token") || undefined,
-            });
-            const api = new ChunkingConfigsApi(config);
-            await api.chunkingConfigsIdActivatePost({ id: configId });
-            // Reload configs after activation
-            const response = await api.chunkingConfigsGet();
-            setConfigs(response || []);
+            await activateConfig(configId);
         } catch (err: any) {
-            setError(err.message || "Failed to activate config");
+            console.error("Failed to activate config:", err);
         }
     };
 

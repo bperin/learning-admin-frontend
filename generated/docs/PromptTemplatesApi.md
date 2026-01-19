@@ -32,7 +32,11 @@ import type { PromptTemplatesGenerationTypeGenerationTypeGetRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const api = new PromptTemplatesApi();
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: OAuth2 password
+    accessToken: "YOUR ACCESS TOKEN",
+  });
+  const api = new PromptTemplatesApi(config);
 
   const body = {
     // string | Generation type (CLASSIFICATION or QUESTIONS)
@@ -64,7 +68,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[OAuth2 password](../README.md#OAuth2-password)
 
 ### HTTP request headers
 
@@ -101,7 +105,11 @@ import type { PromptTemplatesGetRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const api = new PromptTemplatesApi();
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: OAuth2 password
+    accessToken: "YOUR ACCESS TOKEN",
+  });
+  const api = new PromptTemplatesApi(config);
 
   const body = {
     // string | Generation type (CLASSIFICATION or QUESTIONS)
@@ -133,7 +141,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[OAuth2 password](../README.md#OAuth2-password)
 
 ### HTTP request headers
 
@@ -170,7 +178,11 @@ import type { PromptTemplatesIdActivatePostRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const api = new PromptTemplatesApi();
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: OAuth2 password
+    accessToken: "YOUR ACCESS TOKEN",
+  });
+  const api = new PromptTemplatesApi(config);
 
   const body = {
     // string | Template ID (UUID)
@@ -202,7 +214,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[OAuth2 password](../README.md#OAuth2-password)
 
 ### HTTP request headers
 
@@ -239,7 +251,11 @@ import type { PromptTemplatesIdDeactivatePostRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const api = new PromptTemplatesApi();
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: OAuth2 password
+    accessToken: "YOUR ACCESS TOKEN",
+  });
+  const api = new PromptTemplatesApi(config);
 
   const body = {
     // string | Template ID (UUID)
@@ -271,7 +287,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[OAuth2 password](../README.md#OAuth2-password)
 
 ### HTTP request headers
 
@@ -308,7 +324,11 @@ import type { PromptTemplatesIdGetRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const api = new PromptTemplatesApi();
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: OAuth2 password
+    accessToken: "YOUR ACCESS TOKEN",
+  });
+  const api = new PromptTemplatesApi(config);
 
   const body = {
     // string | Template ID (UUID)
@@ -340,7 +360,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[OAuth2 password](../README.md#OAuth2-password)
 
 ### HTTP request headers
 
@@ -377,7 +397,11 @@ import type { PromptTemplatesPostRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const api = new PromptTemplatesApi();
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: OAuth2 password
+    accessToken: "YOUR ACCESS TOKEN",
+  });
+  const api = new PromptTemplatesApi(config);
 
   const body = {
     // PromptTemplatesCreatePromptTemplateVersionRequest | Template version request
@@ -409,7 +433,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[OAuth2 password](../README.md#OAuth2-password)
 
 ### HTTP request headers
 

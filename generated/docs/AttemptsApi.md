@@ -30,7 +30,11 @@ import type { AttemptsIdAnswersPostRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const api = new AttemptsApi();
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: OAuth2 password
+    accessToken: "YOUR ACCESS TOKEN",
+  });
+  const api = new AttemptsApi(config);
 
   const body = {
     // string | Attempt ID
@@ -62,7 +66,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[OAuth2 password](../README.md#OAuth2-password)
 
 ### HTTP request headers
 
@@ -97,7 +101,11 @@ import type { AttemptsIdGetRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const api = new AttemptsApi();
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: OAuth2 password
+    accessToken: "YOUR ACCESS TOKEN",
+  });
+  const api = new AttemptsApi(config);
 
   const body = {
     // string | Attempt ID
@@ -129,7 +137,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[OAuth2 password](../README.md#OAuth2-password)
 
 ### HTTP request headers
 
@@ -164,7 +172,11 @@ import type { AttemptsIdSubmitPostRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const api = new AttemptsApi();
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: OAuth2 password
+    accessToken: "YOUR ACCESS TOKEN",
+  });
+  const api = new AttemptsApi(config);
 
   const body = {
     // string | Attempt ID
@@ -196,7 +208,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[OAuth2 password](../README.md#OAuth2-password)
 
 ### HTTP request headers
 
@@ -231,7 +243,11 @@ import type { EvalsIdAttemptsPostRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const api = new AttemptsApi();
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: OAuth2 password
+    accessToken: "YOUR ACCESS TOKEN",
+  });
+  const api = new AttemptsApi(config);
 
   const body = {
     // string | Eval ID
@@ -263,7 +279,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[OAuth2 password](../README.md#OAuth2-password)
 
 ### HTTP request headers
 

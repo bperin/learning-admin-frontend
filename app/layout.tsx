@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { AuthProvider } from "@/providers/auth-provider";
 import { AuthGuard } from "@/components/auth-guard";
 
 export const metadata: Metadata = {
@@ -12,9 +11,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     return (
         <html lang="en" className="dark">
             <body>
-                <AuthProvider>
-                    <AuthGuard>{children}</AuthGuard>
-                </AuthProvider>
+                <AuthGuard>{children}</AuthGuard>
             </body>
         </html>
     );

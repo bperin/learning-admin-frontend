@@ -1,15 +1,24 @@
 "use client";
 
-import { useAuthContext } from "@/providers/auth-provider";
+import { useAuthStore } from "@/lib/auth-store";
 import { useRouter, usePathname } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const PUBLIC_ROUTES = ["/login", "/signup"];
 
 export function AuthGuard({ children }: { children: React.ReactNode }) {
-    const { isAuthenticated, isLoading } = useAuthContext();
+    const { isAuthenticated, initialize } = useAuthStore();
+    const [isLoading, setIsLoading] = useState(true);
     const router = useRouter();
     const pathname = usePathname();
+
+    useEffect(() => {
+        const initAuth = async () => {
+            await initialize();
+            setIsLoading(false);
+        };
+        initAuth();
+    }, [initialize]);
 
     useEffect(() => {
         if (isLoading) return;

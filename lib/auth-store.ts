@@ -5,36 +5,47 @@ export interface AuthState {
     token: string | null;
     user: { id: string; email: string; role: string } | null;
     isAuthenticated: boolean;
-    login: (email: string, password: string) => Promise<void>;
+    setAuthData: (token: string, user: { id: string; email: string; role: string }) => void;
     logout: () => void;
-    setToken: (token: string) => void;
+    initialize: () => Promise<void>;
 }
 
-export const useAuthStore = create<AuthState>((set) => ({
-    token: typeof window !== "undefined" ? localStorage.getItem("learning_access_token") : null,
+export const useAuthStore = create<AuthState>((set, get) => ({
+    token: null,
     user: null,
     isAuthenticated: false,
-    login: async (email: string, _password: string) => {
-        // Placeholder - will be replaced with actual API call
-        const mockToken = "mock-jwt-token-" + Date.now();
-        TokenRepository.saveTokens({
-            accessToken: mockToken,
-            refreshToken: "mock-refresh-token-" + Date.now(),
-        });
-        set({
-            token: mockToken,
-            user: { id: "1", email, role: "admin" },
-            isAuthenticated: true,
-        });
+    setAuthData: (token: string, user: { id: string; email: string; role: string }) => {
+        set({ token, user, isAuthenticated: true });
     },
     logout: () => {
         TokenRepository.clearTokens();
-        localStorage.removeItem("auth_token");
-        localStorage.removeItem("access_token");
         set({ token: null, user: null, isAuthenticated: false });
     },
-    setToken: (token: string) => {
-        localStorage.setItem("learning_access_token", token);
-        set({ token, isAuthenticated: true });
+    initialize: async () => {
+        try {
+            const tokens = await TokenRepository.getTokens();
+            const user = await TokenRepository.getUser();
+
+            if (tokens && user) {
+                set({
+                    token: tokens.accessToken,
+                    user,
+                    isAuthenticated: true,
+                });
+            } else {
+                set({
+                    token: null,
+                    user: null,
+                    isAuthenticated: false,
+                });
+            }
+        } catch (error) {
+            console.error("Failed to initialize auth:", error);
+            set({
+                token: null,
+                user: null,
+                isAuthenticated: false,
+            });
+        }
     },
 }));

@@ -1,4 +1,4 @@
-import { AuthApi, UsersApi, EvalsApi, AttemptsApi, ReviewsApi, PromptTemplatesApi, SchemaTemplatesApi, ChunkingConfigsApi, SystemInstructionsApi, SubjectsApi, ModelConfigsApi, Configuration, Middleware, ResponseContext, RequestContext } from "@/generated";
+import { AuthApi, UsersApi, EvalsApi, AttemptsApi, ReviewsApi, PromptTemplatesApi, SchemaTemplatesApi, ChunkingConfigsApi, SystemInstructionsApi, SubjectsApi, ModelConfigsApi, ContentDiscoveryApi, Configuration } from "@/generated";
 import { TokenRepository } from "@/lib/token-repository";
 import { jwtDecode, JwtPayload } from "jwt-decode";
 
@@ -20,7 +20,7 @@ const isTokenExpired = (token: string) => {
     if (!payload?.exp) return false;
 
     const nowInSeconds = Math.floor(Date.now() / 1000);
-    return payload.exp <= nowInSeconds + 60; // Refresh 1 minute before expiration
+    return payload.exp <= nowInSeconds + 60;
 };
 
 const refreshAccessToken = async (refreshToken: string): Promise<string | null> => {
@@ -28,10 +28,8 @@ const refreshAccessToken = async (refreshToken: string): Promise<string | null> 
         const refreshApi = new AuthApi(
             new Configuration({
                 basePath: API_BASE_URL,
-                middleware: [loggingMiddleware],
             })
         );
-
         refreshPromise = refreshApi
             .oauthTokenPost({
                 authdtoTokenRequest: {
@@ -41,18 +39,18 @@ const refreshAccessToken = async (refreshToken: string): Promise<string | null> 
             })
             .then(async (response) => {
                 if (response.accessToken && response.refreshToken) {
-                    TokenRepository.saveTokens({
+                    await TokenRepository.saveTokens({
                         accessToken: response.accessToken,
                         refreshToken: response.refreshToken,
                     });
                     return response.accessToken;
                 }
-                TokenRepository.clearTokens();
+                await TokenRepository.clearTokens();
                 return null;
             })
             .catch(async (error) => {
                 console.error("[api-client] Token refresh failed", error);
-                TokenRepository.clearTokens();
+                await TokenRepository.clearTokens();
                 return null;
             })
             .finally(() => {
@@ -65,7 +63,9 @@ const refreshAccessToken = async (refreshToken: string): Promise<string | null> 
 
 const getValidAccessToken = async (): Promise<string | null> => {
     const tokens = await TokenRepository.getTokens();
-    if (!tokens?.accessToken) return null;
+    if (!tokens?.accessToken) {
+        return null;
+    }
 
     if (!isTokenExpired(tokens.accessToken)) {
         return tokens.accessToken;
@@ -76,48 +76,15 @@ const getValidAccessToken = async (): Promise<string | null> => {
     return refreshAccessToken(tokens.refreshToken);
 };
 
-const authMiddleware: Middleware = {
-    pre: async (context: RequestContext) => {
-        const token = await getValidAccessToken();
-        console.log(`[Auth Middleware] Token retrieved:`, token ? "✓ Present" : "✗ Missing");
-
-        if (token) {
-            if (!context.init.headers) {
-                context.init.headers = {};
-            }
-            const headers = context.init.headers as Record<string, string>;
-            headers["Authorization"] = `Bearer ${token}`;
-            console.log(`[Auth Middleware] ✓ Bearer token attached`);
-        } else {
-            console.warn(`[Auth Middleware] ✗ No token available`);
-        }
-        return context;
-    },
-};
-
-const loggingMiddleware: Middleware = {
-    pre: async (context: RequestContext) => {
-        console.log(`[API Request] ${context.init.method} ${context.url}`);
-        if (context.init.headers) {
-            console.log(`[API Request Headers]`, context.init.headers);
-        }
-        if (context.init.body) {
-            console.log(`[API Request Body]`, context.init.body);
-        }
-        return context;
-    },
-    post: async (context: ResponseContext) => {
-        console.log(`[API Response] ${context.response.status} ${context.url}`);
-        return context.response;
-    },
-};
-
 const configuration = new Configuration({
     basePath: API_BASE_URL,
-    middleware: [authMiddleware, loggingMiddleware],
+    accessToken: async () => {
+        const token = await getValidAccessToken();
+        return token ? `Bearer ${token}` : "";
+    },
 });
 
-const authApi = new AuthApi(configuration);
+export const authApi = new AuthApi(configuration);
 const usersApi = new UsersApi(configuration);
 const evalsApi = new EvalsApi(configuration);
 const attemptsApi = new AttemptsApi(configuration);
@@ -128,8 +95,9 @@ const chunkingConfigsApi = new ChunkingConfigsApi(configuration);
 const systemInstructionsApi = new SystemInstructionsApi(configuration);
 const subjectsApi = new SubjectsApi(configuration);
 const modelConfigsApi = new ModelConfigsApi(configuration);
+const contentDiscoveryApi = new ContentDiscoveryApi(configuration);
 
-export const apiClient = {
+export const createApiClient = () => ({
     auth: authApi,
     users: usersApi,
     evals: evalsApi,
@@ -141,6 +109,5 @@ export const apiClient = {
     systemInstructions: systemInstructionsApi,
     subjects: subjectsApi,
     modelConfigs: modelConfigsApi,
-};
-
-export const createApiClient = () => apiClient;
+    contentDiscovery: contentDiscoveryApi,
+});

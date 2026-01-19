@@ -93,6 +93,11 @@ export class UsersApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
+        if (this.configuration && this.configuration.accessToken) {
+            // oauth required
+            headerParameters["Authorization"] = await this.configuration.accessToken("OAuth2", []);
+        }
+
         let urlPath = `/users/email/{email}`;
         urlPath = urlPath.replace(`{${"email"}}`, encodeURIComponent(String(requestParameters["email"])));
 
@@ -130,6 +135,11 @@ export class UsersApi extends runtime.BaseAPI {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            // oauth required
+            headerParameters["Authorization"] = await this.configuration.accessToken("OAuth2", []);
+        }
 
         let urlPath = `/users/{id}`;
         urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters["id"])));
@@ -169,6 +179,11 @@ export class UsersApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
+        if (this.configuration && this.configuration.accessToken) {
+            // oauth required
+            headerParameters["Authorization"] = await this.configuration.accessToken("OAuth2", []);
+        }
+
         let urlPath = `/users/{id}`;
         urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters["id"])));
 
@@ -195,6 +210,44 @@ export class UsersApi extends runtime.BaseAPI {
     }
 
     /**
+     * Retrieve the current user\'s profile from their JWT token
+     * Get current authenticated user
+     */
+    async usersMeGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UsersUser>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            // oauth required
+            headerParameters["Authorization"] = await this.configuration.accessToken("OAuth2", []);
+        }
+
+        let urlPath = `/users/me`;
+
+        const response = await this.request(
+            {
+                path: urlPath,
+                method: "GET",
+                headers: headerParameters,
+                query: queryParameters,
+            },
+            initOverrides
+        );
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => UsersUserFromJSON(jsonValue));
+    }
+
+    /**
+     * Retrieve the current user\'s profile from their JWT token
+     * Get current authenticated user
+     */
+    async usersMeGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UsersUser> {
+        const response = await this.usersMeGetRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
      * Create a new user with the provided details
      * Create a new user
      */
@@ -208,6 +261,11 @@ export class UsersApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         headerParameters["Content-Type"] = "application/json";
+
+        if (this.configuration && this.configuration.accessToken) {
+            // oauth required
+            headerParameters["Authorization"] = await this.configuration.accessToken("OAuth2", []);
+        }
 
         let urlPath = `/users`;
 

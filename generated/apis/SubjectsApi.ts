@@ -13,13 +13,51 @@
  */
 
 import * as runtime from "../runtime";
-import type { SubjectsSubject } from "../models/index";
-import { SubjectsSubjectFromJSON, SubjectsSubjectToJSON } from "../models/index";
+import type { SubjectsSubject, SubjectsSubjectForSelection } from "../models/index";
+import { SubjectsSubjectFromJSON, SubjectsSubjectToJSON, SubjectsSubjectForSelectionFromJSON, SubjectsSubjectForSelectionToJSON } from "../models/index";
 
 /**
  *
  */
 export class SubjectsApi extends runtime.BaseAPI {
+    /**
+     * Retrieve subjects formatted for selection UI (tag cloud style)
+     * List subjects for test creation selection
+     */
+    async subjectsForSelectionGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<SubjectsSubjectForSelection>>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            // oauth required
+            headerParameters["Authorization"] = await this.configuration.accessToken("OAuth2", []);
+        }
+
+        let urlPath = `/subjects/for-selection`;
+
+        const response = await this.request(
+            {
+                path: urlPath,
+                method: "GET",
+                headers: headerParameters,
+                query: queryParameters,
+            },
+            initOverrides
+        );
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(SubjectsSubjectForSelectionFromJSON));
+    }
+
+    /**
+     * Retrieve subjects formatted for selection UI (tag cloud style)
+     * List subjects for test creation selection
+     */
+    async subjectsForSelectionGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<SubjectsSubjectForSelection>> {
+        const response = await this.subjectsForSelectionGetRaw(initOverrides);
+        return await response.value();
+    }
+
     /**
      * Retrieve all academic subjects with their nested sub-subjects
      * List all subjects
@@ -28,6 +66,11 @@ export class SubjectsApi extends runtime.BaseAPI {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            // oauth required
+            headerParameters["Authorization"] = await this.configuration.accessToken("OAuth2", []);
+        }
 
         let urlPath = `/subjects`;
 

@@ -31,7 +31,11 @@ import type { SystemInstructionsActiveGetRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const api = new SystemInstructionsApi();
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: OAuth2 password
+    accessToken: "YOUR ACCESS TOKEN",
+  });
+  const api = new SystemInstructionsApi(config);
 
   try {
     const data = await api.systemInstructionsActiveGet();
@@ -55,7 +59,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-No authorization required
+[OAuth2 password](../README.md#OAuth2-password)
 
 ### HTTP request headers
 
@@ -91,7 +95,11 @@ import type { SystemInstructionsGetRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const api = new SystemInstructionsApi();
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: OAuth2 password
+    accessToken: "YOUR ACCESS TOKEN",
+  });
+  const api = new SystemInstructionsApi(config);
 
   try {
     const data = await api.systemInstructionsGet();
@@ -115,7 +123,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-No authorization required
+[OAuth2 password](../README.md#OAuth2-password)
 
 ### HTTP request headers
 
@@ -151,7 +159,11 @@ import type { SystemInstructionsIdActivatePostRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const api = new SystemInstructionsApi();
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: OAuth2 password
+    accessToken: "YOUR ACCESS TOKEN",
+  });
+  const api = new SystemInstructionsApi(config);
 
   const body = {
     // string | Instruction ID (UUID)
@@ -183,7 +195,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[OAuth2 password](../README.md#OAuth2-password)
 
 ### HTTP request headers
 
@@ -220,7 +232,11 @@ import type { SystemInstructionsIdGetRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const api = new SystemInstructionsApi();
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: OAuth2 password
+    accessToken: "YOUR ACCESS TOKEN",
+  });
+  const api = new SystemInstructionsApi(config);
 
   const body = {
     // string | Instruction ID (UUID)
@@ -252,7 +268,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[OAuth2 password](../README.md#OAuth2-password)
 
 ### HTTP request headers
 
@@ -289,7 +305,11 @@ import type { SystemInstructionsPostRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const api = new SystemInstructionsApi();
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: OAuth2 password
+    accessToken: "YOUR ACCESS TOKEN",
+  });
+  const api = new SystemInstructionsApi(config);
 
   const body = {
     // SystemInstructionsCreateSystemInstructionRequest | System instruction request
@@ -321,7 +341,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[OAuth2 password](../README.md#OAuth2-password)
 
 ### HTTP request headers
 

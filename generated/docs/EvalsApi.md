@@ -30,7 +30,11 @@ import type { EvalsGetRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const api = new EvalsApi();
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: OAuth2 password
+    accessToken: "YOUR ACCESS TOKEN",
+  });
+  const api = new EvalsApi(config);
 
   try {
     const data = await api.evalsGet();
@@ -54,7 +58,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-No authorization required
+[OAuth2 password](../README.md#OAuth2-password)
 
 ### HTTP request headers
 
@@ -89,7 +93,11 @@ import type { EvalsIdGetRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const api = new EvalsApi();
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: OAuth2 password
+    accessToken: "YOUR ACCESS TOKEN",
+  });
+  const api = new EvalsApi(config);
 
   const body = {
     // string | Eval ID
@@ -121,7 +129,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[OAuth2 password](../README.md#OAuth2-password)
 
 ### HTTP request headers
 
@@ -156,7 +164,11 @@ import type { EvalsIdPublishPostRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const api = new EvalsApi();
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: OAuth2 password
+    accessToken: "YOUR ACCESS TOKEN",
+  });
+  const api = new EvalsApi(config);
 
   const body = {
     // string | Eval ID
@@ -188,7 +200,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[OAuth2 password](../README.md#OAuth2-password)
 
 ### HTTP request headers
 
@@ -223,7 +235,11 @@ import type { EvalsPostRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const api = new EvalsApi();
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: OAuth2 password
+    accessToken: "YOUR ACCESS TOKEN",
+  });
+  const api = new EvalsApi(config);
 
   try {
     const data = await api.evalsPost();
@@ -247,7 +263,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-No authorization required
+[OAuth2 password](../README.md#OAuth2-password)
 
 ### HTTP request headers
 

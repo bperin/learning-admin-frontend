@@ -1,12 +1,14 @@
 "use client";
 
-import { useAuthContext } from "@/providers/auth-provider";
+import { useAuthStore } from "@/lib/auth-store";
 import { createApiClient } from "@/lib/api-client";
 import { TokenRepository } from "@/lib/token-repository";
 import type { UsersUser, UsersUserRoleType } from "@/generated";
+import { useState } from "react";
 
 export function useAuth() {
-    const { isAuthenticated, setIsAuthenticated, isLoading, setIsLoading, user, setUser } = useAuthContext();
+    const { isAuthenticated, user, setAuthData, logout: storeLogout } = useAuthStore();
+    const [isLoading, setIsLoading] = useState(false);
 
     const login = async (email: string, password: string) => {
         console.log("[useAuth] login requested for:", email);
@@ -33,20 +35,28 @@ export function useAuth() {
                 // Fetch user profile now that we have valid tokens
                 try {
                     const apiClient = createApiClient();
-                    const userProfile = await apiClient.users.usersEmailEmailGet({
-                        email: email,
-                    });
+                    const userProfile = await apiClient.users.usersMeGet();
                     console.log("[useAuth] user profile fetched:", userProfile.email);
 
-                    setUser(userProfile);
                     await TokenRepository.saveUser(userProfile);
                     console.log("[useAuth] user profile saved");
+
+                    // Update auth state with token and user data (NO PASSWORD)
+                    setAuthData(response.accessToken, {
+                        id: userProfile.id,
+                        email: userProfile.email,
+                        role: userProfile.role,
+                    });
                 } catch (userError) {
                     console.error("[useAuth] failed to fetch user profile:", userError);
                     // Continue with auth even if user fetch fails
+                    setAuthData(response.accessToken, {
+                        id: "unknown",
+                        email: email,
+                        role: "admin",
+                    });
                 }
 
-                setIsAuthenticated(true);
                 console.log("[useAuth] authentication state set to true");
             } else {
                 console.warn("[useAuth] login response missing tokens");
@@ -54,7 +64,6 @@ export function useAuth() {
             }
         } catch (e: any) {
             console.error("[useAuth] login failed:", e);
-            setIsAuthenticated(false);
             throw e;
         } finally {
             setIsLoading(false);
@@ -78,8 +87,7 @@ export function useAuth() {
             console.log("[useAuth] signup successful");
 
             if (response) {
-                setUser(response);
-                TokenRepository.saveUser(response);
+                await TokenRepository.saveUser(response);
             }
         } catch (e: any) {
             console.error("[useAuth] signup failed:", e);
@@ -92,9 +100,7 @@ export function useAuth() {
     const logout = () => {
         console.log("[useAuth] logout requested");
         try {
-            TokenRepository.clearTokens();
-            setIsAuthenticated(false);
-            setUser(null);
+            storeLogout();
             console.log("[useAuth] logout complete, state cleared");
         } catch (e) {
             console.error("[useAuth] logout failed:", e);

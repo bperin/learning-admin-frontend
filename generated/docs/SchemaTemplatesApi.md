@@ -31,7 +31,11 @@ import type { SchemaTemplatesGenerationTypeGenerationTypeGetRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const api = new SchemaTemplatesApi();
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: OAuth2 password
+    accessToken: "YOUR ACCESS TOKEN",
+  });
+  const api = new SchemaTemplatesApi(config);
 
   const body = {
     // string | Generation type (CLASSIFICATION or QUESTIONS)
@@ -63,7 +67,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[OAuth2 password](../README.md#OAuth2-password)
 
 ### HTTP request headers
 
@@ -100,7 +104,11 @@ import type { SchemaTemplatesGetRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const api = new SchemaTemplatesApi();
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: OAuth2 password
+    accessToken: "YOUR ACCESS TOKEN",
+  });
+  const api = new SchemaTemplatesApi(config);
 
   const body = {
     // string | Generation type (CLASSIFICATION or QUESTIONS)
@@ -132,7 +140,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[OAuth2 password](../README.md#OAuth2-password)
 
 ### HTTP request headers
 
@@ -169,7 +177,11 @@ import type { SchemaTemplatesIdActivatePostRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const api = new SchemaTemplatesApi();
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: OAuth2 password
+    accessToken: "YOUR ACCESS TOKEN",
+  });
+  const api = new SchemaTemplatesApi(config);
 
   const body = {
     // string | Template ID (UUID)
@@ -201,7 +213,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[OAuth2 password](../README.md#OAuth2-password)
 
 ### HTTP request headers
 
@@ -238,7 +250,11 @@ import type { SchemaTemplatesIdGetRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const api = new SchemaTemplatesApi();
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: OAuth2 password
+    accessToken: "YOUR ACCESS TOKEN",
+  });
+  const api = new SchemaTemplatesApi(config);
 
   const body = {
     // string | Template ID (UUID)
@@ -270,7 +286,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[OAuth2 password](../README.md#OAuth2-password)
 
 ### HTTP request headers
 
@@ -307,7 +323,11 @@ import type { SchemaTemplatesPostRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const api = new SchemaTemplatesApi();
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: OAuth2 password
+    accessToken: "YOUR ACCESS TOKEN",
+  });
+  const api = new SchemaTemplatesApi(config);
 
   const body = {
     // SchemaTemplatesCreateSchemaTemplateRequest | Schema template request
@@ -339,7 +359,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[OAuth2 password](../README.md#OAuth2-password)
 
 ### HTTP request headers
 

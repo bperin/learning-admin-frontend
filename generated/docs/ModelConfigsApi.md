@@ -31,7 +31,11 @@ import type { ModelConfigsActiveGetRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const api = new ModelConfigsApi();
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: OAuth2 password
+    accessToken: "YOUR ACCESS TOKEN",
+  });
+  const api = new ModelConfigsApi(config);
 
   try {
     const data = await api.modelConfigsActiveGet();
@@ -55,7 +59,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-No authorization required
+[OAuth2 password](../README.md#OAuth2-password)
 
 ### HTTP request headers
 
@@ -91,7 +95,11 @@ import type { ModelConfigsGetRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const api = new ModelConfigsApi();
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: OAuth2 password
+    accessToken: "YOUR ACCESS TOKEN",
+  });
+  const api = new ModelConfigsApi(config);
 
   try {
     const data = await api.modelConfigsGet();
@@ -115,7 +123,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-No authorization required
+[OAuth2 password](../README.md#OAuth2-password)
 
 ### HTTP request headers
 
@@ -151,7 +159,11 @@ import type { ModelConfigsIdActivatePostRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const api = new ModelConfigsApi();
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: OAuth2 password
+    accessToken: "YOUR ACCESS TOKEN",
+  });
+  const api = new ModelConfigsApi(config);
 
   const body = {
     // string | Config ID (UUID)
@@ -183,7 +195,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[OAuth2 password](../README.md#OAuth2-password)
 
 ### HTTP request headers
 
@@ -221,7 +233,11 @@ import type { ModelConfigsIdGetRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const api = new ModelConfigsApi();
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: OAuth2 password
+    accessToken: "YOUR ACCESS TOKEN",
+  });
+  const api = new ModelConfigsApi(config);
 
   const body = {
     // string | Config ID (UUID)
@@ -253,7 +269,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[OAuth2 password](../README.md#OAuth2-password)
 
 ### HTTP request headers
 
@@ -290,7 +306,11 @@ import type { ModelConfigsPostRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const api = new ModelConfigsApi();
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: OAuth2 password
+    accessToken: "YOUR ACCESS TOKEN",
+  });
+  const api = new ModelConfigsApi(config);
 
   const body = {
     // ModelConfigsCreateModelConfigRequest | Model config data
@@ -322,7 +342,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[OAuth2 password](../README.md#OAuth2-password)
 
 ### HTTP request headers
 

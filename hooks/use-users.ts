@@ -13,7 +13,7 @@ export function useUsers() {
         setError(null);
         try {
             const apiClient = createApiClient();
-            const response = await apiClient.users.usersIdGet({ id: "me" });
+            const response = await apiClient.users.usersMeGet();
             return response;
         } catch (e: any) {
             console.error("[useUsers] Failed to fetch current user:", e);
@@ -40,27 +40,10 @@ export function useUsers() {
         }
     };
 
-    const getUserByEmail = async (email: string): Promise<UsersUser | null> => {
-        setIsLoading(true);
-        setError(null);
-        try {
-            const apiClient = createApiClient();
-            const response = await apiClient.users.usersEmailEmailGet({ email });
-            return response;
-        } catch (e: any) {
-            console.error("[useUsers] Failed to fetch user by email:", e);
-            setError(e.message || "Failed to fetch user");
-            return null;
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
     return {
         isLoading,
         error,
         getCurrentUser,
         getUserById,
-        getUserByEmail,
     };
 }

@@ -2,21 +2,19 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { useAuthContext } from "@/providers/auth-provider";
+import { useAuthStore } from "@/lib/auth-store";
 
 export default function Home() {
-    const { isAuthenticated, isLoading } = useAuthContext();
+    const { isAuthenticated } = useAuthStore();
     const router = useRouter();
 
     useEffect(() => {
-        if (isLoading) return;
-
         if (isAuthenticated) {
             router.push("/dashboard");
         } else {
             router.push("/login");
         }
-    }, [isAuthenticated, isLoading, router]);
+    }, [isAuthenticated, router]);
 
     return null;
 }

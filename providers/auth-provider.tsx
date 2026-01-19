@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { UsersUser } from "@/generated";
-import { TokenRepository } from "@/lib/token-repository";
+import { useAuthStore } from "@/lib/auth-store";
 
 interface AuthContextType {
     isAuthenticated: boolean;
@@ -18,44 +18,34 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
-    const [user, setUser] = useState<UsersUser | null>(null);
     const router = useRouter();
+
+    // Use Zustand store for auth state
+    const { isAuthenticated, user, logout: authStoreLogout, initialize } = useAuthStore();
 
     useEffect(() => {
         const initAuth = async () => {
             try {
-                const tokens = await TokenRepository.getTokens();
-                const savedUser = await TokenRepository.getUser();
-
-                if (tokens && savedUser) {
-                    setIsAuthenticated(true);
-                    setUser(savedUser);
-                } else {
-                    setIsAuthenticated(false);
-                    setUser(null);
-                }
+                await initialize();
             } catch (e) {
                 console.error("[AuthProvider] Failed to init auth:", e);
-                setIsAuthenticated(false);
-                setUser(null);
             } finally {
                 setIsLoading(false);
             }
         };
 
         initAuth();
-    }, []);
+    }, [initialize]);
 
     const logout = () => {
-        TokenRepository.clearTokens();
-        localStorage.removeItem("auth_token");
-        localStorage.removeItem("access_token");
-        setIsAuthenticated(false);
-        setUser(null);
+        authStoreLogout();
         router.push("/login");
     };
+
+    // Dummy setters to maintain interface compatibility
+    const setIsAuthenticated = () => {};
+    const setUser = () => {};
 
     return (
         <AuthContext.Provider

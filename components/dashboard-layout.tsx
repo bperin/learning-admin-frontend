@@ -7,7 +7,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DocumentsTab } from "@/components/documents-tab";
 import { QuestionGenerationTab } from "@/components/question-generation-tab";
 import { ArtifactsTab } from "@/components/artifacts-tab";
-import { LogOut, Menu, X } from "lucide-react";
+import { LogOut, Menu, X, Plus } from "lucide-react";
+import Link from "next/link";
 
 export function DashboardLayout() {
     const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -32,6 +33,12 @@ export function DashboardLayout() {
                         <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4">Navigation</div>
                         <div className="space-y-1">
                             <div className="px-3 py-2 rounded-md text-sm font-medium bg-primary text-primary-foreground">Dashboard</div>
+                            <Link href="/dashboard/test-creation">
+                                <div className="px-3 py-2 rounded-md text-sm font-medium hover:bg-muted transition-colors flex items-center">
+                                    <Plus className="w-4 h-4 mr-2" />
+                                    Construct Suite
+                                </div>
+                            </Link>
                         </div>
                     </nav>
 

@@ -8,6 +8,7 @@ All URIs are relative to *https://localhost:8080*
 | [**usersEmailEmailGet**](UsersApi.md#usersemailemailget) | **GET** /users/email/{email} | Get user by email |
 | [**usersIdDelete**](UsersApi.md#usersiddelete) | **DELETE** /users/{id} | Delete user |
 | [**usersIdGet**](UsersApi.md#usersidget) | **GET** /users/{id} | Get user by ID |
+| [**usersMeGet**](UsersApi.md#usersmeget) | **GET** /users/me | Get current authenticated user |
 | [**usersPost**](UsersApi.md#userspost) | **POST** /users | Create a new user |
 
 
@@ -100,7 +101,11 @@ import type { UsersEmailEmailGetRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const api = new UsersApi();
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: OAuth2 password
+    accessToken: "YOUR ACCESS TOKEN",
+  });
+  const api = new UsersApi(config);
 
   const body = {
     // string | User Email
@@ -132,7 +137,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[OAuth2 password](../README.md#OAuth2-password)
 
 ### HTTP request headers
 
@@ -170,7 +175,11 @@ import type { UsersIdDeleteRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const api = new UsersApi();
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: OAuth2 password
+    accessToken: "YOUR ACCESS TOKEN",
+  });
+  const api = new UsersApi(config);
 
   const body = {
     // string | User ID
@@ -202,7 +211,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[OAuth2 password](../README.md#OAuth2-password)
 
 ### HTTP request headers
 
@@ -239,7 +248,11 @@ import type { UsersIdGetRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const api = new UsersApi();
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: OAuth2 password
+    accessToken: "YOUR ACCESS TOKEN",
+  });
+  const api = new UsersApi(config);
 
   const body = {
     // string | User ID
@@ -271,7 +284,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[OAuth2 password](../README.md#OAuth2-password)
 
 ### HTTP request headers
 
@@ -285,6 +298,71 @@ No authorization required
 | **200** | OK |  -  |
 | **400** | invalid request |  -  |
 | **404** | not found |  -  |
+| **500** | internal server error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## usersMeGet
+
+> UsersUser usersMeGet()
+
+Get current authenticated user
+
+Retrieve the current user\&#39;s profile from their JWT token
+
+### Example
+
+```ts
+import {
+  Configuration,
+  UsersApi,
+} from '';
+import type { UsersMeGetRequest } from '';
+
+async function example() {
+  console.log("🚀 Testing  SDK...");
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: OAuth2 password
+    accessToken: "YOUR ACCESS TOKEN",
+  });
+  const api = new UsersApi(config);
+
+  try {
+    const data = await api.usersMeGet();
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+[**UsersUser**](UsersUser.md)
+
+### Authorization
+
+[OAuth2 password](../README.md#OAuth2-password)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | OK |  -  |
+| **401** | unauthorized |  -  |
 | **500** | internal server error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
@@ -309,7 +387,11 @@ import type { UsersPostRequest } from '';
 
 async function example() {
   console.log("🚀 Testing  SDK...");
-  const api = new UsersApi();
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: OAuth2 password
+    accessToken: "YOUR ACCESS TOKEN",
+  });
+  const api = new UsersApi(config);
 
   const body = {
     // UsersCreateUserRequest | Create User Request
@@ -341,7 +423,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[OAuth2 password](../README.md#OAuth2-password)
 
 ### HTTP request headers
 

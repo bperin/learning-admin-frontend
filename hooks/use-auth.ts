@@ -1,0 +1,96 @@
+"use client";
+
+import { useAuthContext } from "@/providers/auth-provider";
+import { createApiClient } from "@/lib/api-client";
+import { TokenRepository } from "@/lib/token-repository";
+import type { UsersUser, UsersUserRoleType } from "@/generated";
+
+export function useAuth() {
+    const { isAuthenticated, setIsAuthenticated, isLoading, setIsLoading, user, setUser } = useAuthContext();
+
+    const login = async (email: string, password: string) => {
+        console.log("[useAuth] login requested for:", email);
+        setIsLoading(true);
+        try {
+            const apiClient = createApiClient();
+            const response = await apiClient.auth.oauthTokenPost({
+                authdtoTokenRequest: {
+                    grantType: "password",
+                    email,
+                    password,
+                },
+            });
+
+            console.log("[useAuth] login successful, tokens received");
+
+            if (response.accessToken && response.refreshToken) {
+                TokenRepository.saveTokens({
+                    accessToken: response.accessToken,
+                    refreshToken: response.refreshToken,
+                });
+                console.log("[useAuth] tokens saved to repository");
+
+                setIsAuthenticated(true);
+                console.log("[useAuth] authentication state set to true");
+            } else {
+                console.warn("[useAuth] login response missing tokens");
+                throw new Error("Authentication response missing required tokens");
+            }
+        } catch (e: any) {
+            console.error("[useAuth] login failed:", e);
+            setIsAuthenticated(false);
+            throw e;
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const signup = async (email: string, password: string, displayName?: string, role: UsersUserRoleType = "LEARNER") => {
+        console.log("[useAuth] signup requested for:", email, "with role:", role);
+        setIsLoading(true);
+        try {
+            const apiClient = createApiClient();
+            const response = await apiClient.users.signupPost({
+                usersSignupRequest: {
+                    email,
+                    password,
+                    displayName,
+                    role,
+                },
+            });
+
+            console.log("[useAuth] signup successful");
+
+            if (response) {
+                setUser(response);
+                TokenRepository.saveUser(response);
+            }
+        } catch (e: any) {
+            console.error("[useAuth] signup failed:", e);
+            throw e;
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const logout = () => {
+        console.log("[useAuth] logout requested");
+        try {
+            TokenRepository.clearTokens();
+            setIsAuthenticated(false);
+            setUser(null);
+            console.log("[useAuth] logout complete, state cleared");
+        } catch (e) {
+            console.error("[useAuth] logout failed:", e);
+        }
+    };
+
+    return {
+        isAuthenticated,
+        isLoading,
+        user,
+        login,
+        signup,
+        logout,
+    };
+}

@@ -2,9 +2,11 @@ apis/AttemptsApi.ts
 apis/AuthApi.ts
 apis/ChunkingConfigsApi.ts
 apis/EvalsApi.ts
+apis/ModelConfigsApi.ts
 apis/PromptTemplatesApi.ts
 apis/ReviewsApi.ts
 apis/SchemaTemplatesApi.ts
+apis/SubjectsApi.ts
 apis/SystemInstructionsApi.ts
 apis/UsersApi.ts
 apis/index.ts
@@ -16,6 +18,9 @@ docs/ChunkingConfigsApi.md
 docs/ChunkingConfigsChunkingConfig.md
 docs/ChunkingConfigsCreateChunkingConfigRequest.md
 docs/EvalsApi.md
+docs/ModelConfigsApi.md
+docs/ModelConfigsCreateModelConfigRequest.md
+docs/ModelConfigsModelConfig.md
 docs/PromptTemplatesApi.md
 docs/PromptTemplatesCreatePromptTemplateVersionRequest.md
 docs/PromptTemplatesPromptTemplate.md
@@ -23,6 +28,9 @@ docs/ReviewsApi.md
 docs/SchemaTemplatesApi.md
 docs/SchemaTemplatesCreateSchemaTemplateRequest.md
 docs/SchemaTemplatesSchemaTemplate.md
+docs/SubjectsApi.md
+docs/SubjectsSubSubject.md
+docs/SubjectsSubject.md
 docs/SystemInstructionsApi.md
 docs/SystemInstructionsCreateSystemInstructionRequest.md
 docs/SystemInstructionsSystemInstruction.md
@@ -36,10 +44,14 @@ models/AuthdtoTokenRequest.ts
 models/AuthdtoTokenResponse.ts
 models/ChunkingConfigsChunkingConfig.ts
 models/ChunkingConfigsCreateChunkingConfigRequest.ts
+models/ModelConfigsCreateModelConfigRequest.ts
+models/ModelConfigsModelConfig.ts
 models/PromptTemplatesCreatePromptTemplateVersionRequest.ts
 models/PromptTemplatesPromptTemplate.ts
 models/SchemaTemplatesCreateSchemaTemplateRequest.ts
 models/SchemaTemplatesSchemaTemplate.ts
+models/SubjectsSubSubject.ts
+models/SubjectsSubject.ts
 models/SystemInstructionsCreateSystemInstructionRequest.ts
 models/SystemInstructionsSystemInstruction.ts
 models/UsersCreateUserRequest.ts

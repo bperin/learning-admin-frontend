@@ -14,10 +14,9 @@ export function useSubjects() {
         setIsLoading(true);
         setError(null);
         try {
-            // TODO: Replace with actual subjects API when available
-            // const subjectsApi = createApiClient().subjects;
-            // const data = await subjectsApi.subjectsGet();
-            setSubjects([]);
+            const subjectsApi = createApiClient().subjects;
+            const data = await subjectsApi.subjectsGet();
+            setSubjects(data);
         } catch (e: any) {
             if (e.status !== 401) {
                 setError(e.message || "Failed to fetch subjects");

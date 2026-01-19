@@ -6,6 +6,7 @@ import { PromptTemplatesPromptTemplate } from "@/generated/models/PromptTemplate
 import { SchemaTemplatesSchemaTemplate } from "@/generated/models/SchemaTemplatesSchemaTemplate";
 import { SystemInstructionsSystemInstruction } from "@/generated/models/SystemInstructionsSystemInstruction";
 import { ChunkingConfigsChunkingConfig } from "@/generated/models/ChunkingConfigsChunkingConfig";
+import { ModelConfigsModelConfig } from "@/generated/models/ModelConfigsModelConfig";
 import TemplateCard from "@/components/prompt-schemas/template-card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Loader2 } from "lucide-react";
@@ -17,6 +18,7 @@ export default function PromptSchemasPage() {
     const [generationSchema, setGenerationSchema] = useState<SchemaTemplatesSchemaTemplate | null>(null);
     const [systemInstructions, setSystemInstructions] = useState<SystemInstructionsSystemInstruction | null>(null);
     const [chunkingConfig, setChunkingConfig] = useState<ChunkingConfigsChunkingConfig | null>(null);
+    const [modelConfig, setModelConfig] = useState<ModelConfigsModelConfig | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -25,7 +27,7 @@ export default function PromptSchemasPage() {
                 setLoading(true);
                 const apiClient = createApiClient();
 
-                const [classifPrompt, classifSchema, genPrompt, genSchema, sysInstructions, chunking] = await Promise.all([apiClient.promptTemplates.promptTemplatesGenerationTypeGenerationTypeGet({ generationType: "CLASSIFICATION" }).catch(() => null), apiClient.schemaTemplates.schemaTemplatesGenerationTypeGenerationTypeGet({ generationType: "CLASSIFICATION" }).catch(() => null), apiClient.promptTemplates.promptTemplatesGenerationTypeGenerationTypeGet({ generationType: "GENERATION" }).catch(() => null), apiClient.schemaTemplates.schemaTemplatesGenerationTypeGenerationTypeGet({ generationType: "GENERATION" }).catch(() => null), apiClient.systemInstructions.systemInstructionsActiveGet().catch(() => null), apiClient.chunkingConfigs.chunkingConfigsActiveGet().catch(() => null)]);
+                const [classifPrompt, classifSchema, genPrompt, genSchema, sysInstructions, chunking, model] = await Promise.all([apiClient.promptTemplates.promptTemplatesGenerationTypeGenerationTypeGet({ generationType: "CLASSIFICATION" }).catch(() => null), apiClient.schemaTemplates.schemaTemplatesGenerationTypeGenerationTypeGet({ generationType: "CLASSIFICATION" }).catch(() => null), apiClient.promptTemplates.promptTemplatesGenerationTypeGenerationTypeGet({ generationType: "QUESTIONS" }).catch(() => null), apiClient.schemaTemplates.schemaTemplatesGenerationTypeGenerationTypeGet({ generationType: "QUESTIONS" }).catch(() => null), apiClient.systemInstructions.systemInstructionsActiveGet().catch(() => null), apiClient.chunkingConfigs.chunkingConfigsActiveGet().catch(() => null), apiClient.modelConfigs.modelConfigsActiveGet().catch(() => null)]);
 
                 setClassificationPrompt(classifPrompt);
                 setClassificationSchema(classifSchema);
@@ -33,6 +35,7 @@ export default function PromptSchemasPage() {
                 setGenerationSchema(genSchema);
                 setSystemInstructions(sysInstructions);
                 setChunkingConfig(chunking);
+                setModelConfig(model);
             } finally {
                 setLoading(false);
             }
@@ -89,10 +92,7 @@ export default function PromptSchemasPage() {
                     </TabsContent>
 
                     <TabsContent value="model-config" className="mt-8">
-                        <div className="bg-gray-900 border border-gray-800 rounded-lg p-6">
-                            <h3 className="text-lg font-semibold text-white mb-4">Model Configuration</h3>
-                            <p className="text-gray-400 text-sm">Model configuration coming soon</p>
-                        </div>
+                        <TemplateCard title="Model Configuration" type="system" template={modelConfig} generationType="MODEL" />
                     </TabsContent>
 
                     <TabsContent value="chunking" className="mt-8">

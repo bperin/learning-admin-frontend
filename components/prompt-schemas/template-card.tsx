@@ -26,7 +26,7 @@ export default function TemplateCard({ title, type, template, generationType }: 
     const id = template.id || "N/A";
     const version = template.version || "1";
     const createdAt = template.created_at || template.createdAt;
-    const content = template.content || template.schema || template.config || template.prompt || "";
+    const content = template.content || template.schema || template.config || template.prompt || template.schema_json || template.template || template.text || template;
     const description = template.description || "";
     const title_field = template.title || template.name || "";
 

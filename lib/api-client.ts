@@ -1,4 +1,4 @@
-import { AuthApi, UsersApi, EvalsApi, AttemptsApi, ReviewsApi, PromptTemplatesApi, SchemaTemplatesApi, ChunkingConfigsApi, SystemInstructionsApi, Configuration, Middleware, ResponseContext, RequestContext } from "@/generated";
+import { AuthApi, UsersApi, EvalsApi, AttemptsApi, ReviewsApi, PromptTemplatesApi, SchemaTemplatesApi, ChunkingConfigsApi, SystemInstructionsApi, SubjectsApi, ModelConfigsApi, Configuration, Middleware, ResponseContext, RequestContext } from "@/generated";
 import { TokenRepository } from "@/lib/token-repository";
 import { jwtDecode, JwtPayload } from "jwt-decode";
 
@@ -126,6 +126,8 @@ const promptTemplatesApi = new PromptTemplatesApi(configuration);
 const schemaTemplatesApi = new SchemaTemplatesApi(configuration);
 const chunkingConfigsApi = new ChunkingConfigsApi(configuration);
 const systemInstructionsApi = new SystemInstructionsApi(configuration);
+const subjectsApi = new SubjectsApi(configuration);
+const modelConfigsApi = new ModelConfigsApi(configuration);
 
 export const apiClient = {
     auth: authApi,
@@ -137,6 +139,8 @@ export const apiClient = {
     schemaTemplates: schemaTemplatesApi,
     chunkingConfigs: chunkingConfigsApi,
     systemInstructions: systemInstructionsApi,
+    subjects: subjectsApi,
+    modelConfigs: modelConfigsApi,
 };
 
 export const createApiClient = () => apiClient;

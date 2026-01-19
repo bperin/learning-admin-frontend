@@ -1,6 +1,9 @@
 "use client";
 
 import { useSubjects } from "@/hooks/use-subjects";
+import { Loader2 } from "lucide-react";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
 
 export default function SubjectsPage() {
     const { subjects, isLoading, error } = useSubjects();
@@ -8,10 +11,7 @@ export default function SubjectsPage() {
     if (isLoading) {
         return (
             <div className="flex items-center justify-center py-12">
-                <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
-                    <p className="text-gray-400">Loading subjects...</p>
-                </div>
+                <Loader2 className="w-8 h-8 animate-spin text-blue-400" />
             </div>
         );
     }
@@ -25,26 +25,61 @@ export default function SubjectsPage() {
     }
 
     return (
-        <div>
-            <h1 className="text-3xl font-bold text-white mb-8">Subjects</h1>
+        <div className="space-y-6">
+            <div className="flex items-center justify-between">
+                <div>
+                    <h1 className="text-3xl font-bold text-white">Subjects</h1>
+                    <p className="text-gray-400 mt-1">Manage academic subjects and their hierarchies</p>
+                </div>
+            </div>
 
-            {subjects.length === 0 ? (
-                <div className="bg-gray-800 rounded-lg p-8 text-center border border-gray-700">
-                    <p className="text-gray-400">No subjects found</p>
-                </div>
-            ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {subjects.map((subject: any) => (
-                        <div key={subject.id} className="bg-gray-800 rounded-lg p-6 hover:bg-gray-700 transition-colors cursor-pointer border border-gray-700">
-                            <h3 className="text-lg font-semibold text-white mb-2">{subject.name}</h3>
-                            {subject.description && <p className="text-gray-400 text-sm mb-4">{subject.description}</p>}
-                            <div className="flex items-center justify-between text-xs text-gray-500">
-                                <span>ID: {subject.id}</span>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            )}
+            <div className="rounded-md border border-gray-800 bg-gray-900/50">
+                <Table>
+                    <TableHeader>
+                        <TableRow className="border-gray-800 hover:bg-transparent">
+                            <TableHead className="text-gray-400">Name</TableHead>
+                            <TableHead className="text-gray-400">ID</TableHead>
+                            <TableHead className="text-gray-400">Sub-Subjects</TableHead>
+                            <TableHead className="text-right text-gray-400">Actions</TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {subjects.length === 0 ? (
+                            <TableRow>
+                                <TableCell colSpan={4} className="h-24 text-center text-gray-500">
+                                    No subjects found.
+                                </TableCell>
+                            </TableRow>
+                        ) : (
+                            subjects.map((subject: any) => (
+                                <TableRow key={subject.id} className="border-gray-800 hover:bg-gray-800/50">
+                                    <TableCell>
+                                        <div className="font-medium text-white">{subject.name}</div>
+                                        {subject.url && (
+                                            <a href={subject.url} target="_blank" rel="noopener noreferrer" className="text-xs text-blue-400 hover:underline">
+                                                {subject.url}
+                                            </a>
+                                        )}
+                                    </TableCell>
+                                    <TableCell className="font-mono text-xs text-gray-400">{subject.id}</TableCell>
+                                    <TableCell>
+                                        <div className="flex flex-wrap gap-2">
+                                            {subject.sub_subjects?.map((sub: any) => (
+                                                <Badge key={sub.id} variant="outline" className="bg-gray-800 text-gray-300 border-gray-700">
+                                                    {sub.name}
+                                                </Badge>
+                                            )) || <span className="text-gray-600 text-xs">None</span>}
+                                        </div>
+                                    </TableCell>
+                                    <TableCell className="text-right">
+                                        <button className="text-xs text-blue-400 hover:text-blue-300 font-medium">Edit</button>
+                                    </TableCell>
+                                </TableRow>
+                            ))
+                        )}
+                    </TableBody>
+                </Table>
+            </div>
         </div>
     );
 }
